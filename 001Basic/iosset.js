@@ -1,13 +1,18 @@
-var oAudio = document.getElementById('lotteryAudio');
-if(window.WeixinJSBridge) {
-    WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-        oAudio.play();
+function audioAutoPlay(id){
+
+    var audio = document.getElementById(id),
+        play = function(){
+            audio.play();
+            document.removeEventListener("touchstart",play, false);
+        };
+    audio.play();
+    document.addEventListener("WeixinJSBridgeReady", function () {
+        play();
     }, false);
-} else {
-    document.addEventListener("WeixinJSBridgeReady", function() {
-        WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-            oAudio.play();
-        });
+    document.addEventListener('YixinJSBridgeReady', function() {
+        play();
     }, false);
+    document.addEventListener("touchstart",play, false);
+
 }
-oAudio.play();
+audioAutoPlay('Jaudio');
